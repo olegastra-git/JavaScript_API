@@ -1,0 +1,64 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Random Photo from Unsplash</title>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            text-align: center;  
+        }  
+        #photo {  
+            max-width: 80%;  
+            margin: 20px auto;  
+        }  
+    </style>  
+    <script src="key.js"></script>  
+    <script src="script.js" defer></script>  
+</head>  
+<body>  
+    <h1>Random Photo from Unsplash</h1>  
+    <img id="photo" src="" alt="Random photo">  
+    <p id="photographer"></p>  
+    <button id="likeButton">Like</button>  
+    <p>Likes: <span id="likeCount">0</span></p>  
+
+    <script>  
+        const API_KEY = "iEYiPtJOkacTqf0OWx_L0Aix4s2ByGbMbSNbyoPIsMc"; 
+
+        class Loader { 
+            static #test = false; 
+            static #username = 'olegastra'; 
+            static #apiKey = "iEYiPtJOkacTqf0OWx_L0Aix4s2ByGbMbSNbyoPIsMc"; 
+            static #defaultSize = 'small'; // raw, regular, small, ... 
+            static #timeSleep = 1000;
+
+            static #randomPhotoEl = document.querySelector('#photo-random'); 
+            static #likedPhotoEl = document.querySelector('#photo-liked'); 
+            static #loaderEl = document.querySelector('.loader'); 
+            static #errorEl = document.querySelector('.error');
+        
+            static #getElement(data, type) {
+                let likes = 0; 
+                const storageEl = this.#getLikes()[data.id]; 
+                if (storageEl) { 
+                    likes = storageEl.userLikes ? storageEl.userLikes.length : 0; 
+                }
+                return [
+                    '<div class="photo">',
+                    `<div class="likes">${likes}</div>`,
+                    `<img src="${data.urls[this.#defaultSize]}" alt="${data.alt_description}"/>`,
+                    `<div class="author">${data.user.name}</div>`,
+                    `<div class="control" data-type="${type}" data-id="${data.id}">`,
+                    type === 'random' ? '<button class="like">Like</button>' : '',
+                    type === 'random' ? '<button class="next">Next</button>' : '<button class="dislike">Dislike</button>',
+                    '</div>',
+                    '</div>'
+                ].join('');
+            }
+        }
+
+    </script>  
+</body>  
+</html>  
