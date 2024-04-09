@@ -1,0 +1,115 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Web Slider</title>  
+    <style>  
+        .active {
+            transform: scale(1.2);
+            background-color: #ff0000;
+            box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5);
+        }
+        .slider-container {  
+            display: flex;  
+            flex-direction: column;  
+            align-items: center;  
+            margin-top: 20px;  
+        }  
+        .slider-image {  
+            width: 40vw; /* 80% ширина окна */
+            height: 30vh; /* 60% высота окна */
+            object-fit: cover;
+            margin-bottom: 10px;
+            transition: transform 0.5s ease-in-out;
+            
+        }  
+        .navigation-buttons {  
+            display: flex;  
+            justify-content: center;  
+            margin-bottom: 10px;
+              
+        }  
+        .nav-button {  
+            margin: 0 5px;  
+            padding: 5px 10px;  
+            background-color: #007bff;  
+            color: #fff;  
+            border: none;  
+            cursor: pointer;  
+        }  
+        .navigation-dots {  
+            display: flex;  
+            justify-content: center;  
+        }  
+        .dot {  
+            width: 10px;  
+            height: 10px;  
+            border-radius: 50%;  
+            background-color: #007bff;  
+            margin: 0 5px;  
+            cursor: pointer;  
+        }  
+        .active {  
+            background-color: #ff0000;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="slider-container">  
+        <img src="" class="slider-image" id="sliderImage">  
+        <div class="navigation-buttons">  
+            <button class="nav-button" id="prevButton">Предыдущее изображение</button>  
+            <button class="nav-button" id="nextButton">Следующее изображение</button>  
+        </div>  
+        <div class="navigation-dots" id="navigationDots">  
+        </div>  
+    </div>  
+  
+    <script>  
+        let currentImageIndex = 0; // Starting with the first image  
+        const images = ["image1.jpg", "image2.jpg", "image3.jpg"]; // Array of image filenames  
+  
+        const sliderImage = document.getElementById("sliderImage");  
+        const prevButton = document.getElementById("prevButton");  
+        const nextButton = document.getElementById("nextButton");  
+        const navigationDotsContainer = document.getElementById("navigationDots");  
+  
+        function changeImage(index) {  
+            currentImageIndex = index;  
+            sliderImage.src = images[currentImageIndex];  
+  
+            // Update active dot  
+            const navigationDots = navigationDotsContainer.children;
+            for (let i = 0; i < images.length; i++) {
+                if (i === currentImageIndex) {  
+                    navigationDots[i].classList.add('active');  
+                } else {  
+                    navigationDots[i].classList.remove('active');  
+                }  
+            }
+        }  
+  
+        prevButton.addEventListener("click", () => {  
+            currentImageIndex = currentImageIndex === 0 ? images.length - 1 : currentImageIndex - 1;  
+            changeImage(currentImageIndex);  
+        });  
+  
+        nextButton.addEventListener("click", () => {  
+            currentImageIndex = currentImageIndex === images.length - 1 ? 0 : currentImageIndex + 1;  
+            changeImage(currentImageIndex);  
+        });  
+
+        // Add navigation dots dynamically
+        images.forEach((image, index) => {
+            const dot = document.createElement("span");
+            dot.classList.add("dot");
+            dot.onclick = () => changeImage(index);
+            navigationDotsContainer.appendChild(dot);
+        });
+  
+        // Show the first image
+        changeImage(currentImageIndex);
+    </script>  
+</body>  
+</html>
